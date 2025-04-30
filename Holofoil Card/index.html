@@ -24,9 +24,30 @@
     .holo{position:absolute;inset:-40%;background:conic-gradient(from var(--holo-angle),#00ffe0 0%,#0099ff 25%,#8600ff 55%,#ff009d 80%,#00ffe0 100%);mix-blend-mode:overlay;pointer-events:none;transform:translateX(var(--holo-shift));transition:transform .08s linear;}
     /* frame pulse */
     .card::before,.card::after{content:"";position:absolute;inset:0;border:2px solid #00ffe0;border-radius:inherit;mix-blend-mode:screen;opacity:.3;animation:pulse 2.3s ease-in-out infinite;} .card::after{animation-delay:1.15s;opacity:.22;}@keyframes pulse{0%,100%{opacity:.25;}50%{opacity:.45;}}
+    /* Add styles for back link */
+    .back-link {
+        position: fixed;
+        top: 1rem;
+        right: 1rem; /* Positioned to the right */
+        z-index: 20;
+        background: rgba(255,255,255,0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        color: #ccc;
+        text-decoration: none;
+        font-size: 0.9rem;
+        backdrop-filter: blur(3px);
+        transition: background 0.3s;
+    }
+    .back-link:hover {
+        background: rgba(255,255,255,0.2);
+    }
   </style>
 </head>
 <body>
+  <!-- Add the back link here -->
+  <a href="../index.html" class="back-link">返回主菜单</a>
+  
   <h1>Cyber Flash Card</h1>
   <p class="tip">自动检测：手机晃动 = 光效 + 3D 倾斜；桌面 = 鼠标悬停验证。</p>
 

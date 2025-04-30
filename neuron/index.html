@@ -35,9 +35,28 @@
             font-size: 0.9rem;
             opacity: 0.8;
         }
+        .back-link {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 20;
+            background: rgba(0,0,0,0.6);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            color: #eee;
+            text-decoration: none;
+            font-size: 0.9rem;
+            backdrop-filter: blur(3px);
+            transition: background 0.3s;
+        }
+        .back-link:hover {
+            background: rgba(0,0,0,0.8);
+        }
     </style>
 </head>
 <body>
+    <a href="../index.html" class="back-link">返回主菜单</a>
+    
     <div class="ui">
         <h1>突触幻境</h1>
         <p>点击激活神经元<br>长按连接调节权重<br>轻摇设备随机激发</p>
