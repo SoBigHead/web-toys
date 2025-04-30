@@ -17,11 +17,19 @@
     .btn-upload:active{transform:scale(.96);}input[type=file]{display:none;}
 
     /* card */
-    .card-wrap{perspective:900px;width:min(80vw,420px);aspect-ratio:var(--ar);display:none;}
+    .card-wrap{perspective:1200px;width:min(80vw,420px);aspect-ratio:var(--ar);display:none;}
     .card{position:relative;width:100%;height:100%;border-radius:12px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.6);transition:transform .08s linear;transform:rotateX(var(--tiltX)) rotateY(var(--tiltY));backface-visibility:hidden;background:#000;}
     .card img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;}
     /* holo */
     .holo{position:absolute;inset:-40%;background:conic-gradient(from var(--holo-angle),#00ffe0 0%,#0099ff 25%,#8600ff 55%,#ff009d 80%,#00ffe0 100%);mix-blend-mode:overlay;pointer-events:none;transform:translateX(var(--holo-shift));transition:transform .08s linear;}
+    /* noise shimmer layer */
+    .holo::after{
+      content:"";position:absolute;inset:0;
+      background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='60' height='60' filter='url(%23n)' opacity='0.2' /></svg>");
+      mix-blend-mode:screen;pointer-events:none;
+      animation:grain 0.4s steps(4) infinite;
+    }
+    @keyframes grain{0%{transform:translate(0,0);}100%{transform:translate(-60px,60px);}}
     /* frame pulse */
     .card::before,.card::after{content:"";position:absolute;inset:0;border:2px solid #00ffe0;border-radius:inherit;mix-blend-mode:screen;opacity:.3;animation:pulse 2.3s ease-in-out infinite;} .card::after{animation-delay:1.15s;opacity:.22;}@keyframes pulse{0%,100%{opacity:.25;}50%{opacity:.45;}}
     /* Add styles for back link */
@@ -62,27 +70,108 @@
   </div>
 
 <script>
-const input=document.getElementById('file');
-const wrap=document.getElementById('wrap');
-const card=document.getElementById('card');
-const pic=document.getElementById('pic');
-const root=document.documentElement;
-let gyroLinked=false;
+const input  = document.getElementById('file');
+const wrap   = document.getElementById('wrap');
+const card   = document.getElementById('card');
+const pic    = document.getElementById('pic');
+const root   = document.documentElement;
 
-/* Upload */
-input.addEventListener('change',e=>{
-  const f=e.target.files[0];if(!f) return;const url=URL.createObjectURL(f);pic.src=url;wrap.style.display='block';calcAspect(url);attemptGyro();});
-function calcAspect(url){const im=new Image();im.onload=()=>root.style.setProperty('--ar',(im.naturalWidth/im.naturalHeight).toFixed(3));im.src=url;}
+/* ==============================
+   State flags
+============================== */
+let gyroActive = false;      // true after at least one gyro reading
+let dragging    = false;     // pointer is currently pressed
+let lastTouch   = 0;         // throttle for touch‑move
 
-/* Pointer fallback */
-wrap.addEventListener('pointermove',e=>{if(gyroLinked) return;handlePointer(e);});
-wrap.addEventListener('pointerleave',()=>{if(!gyroLinked) resetTilt();});
-function handlePointer(e){const r=wrap.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;const cx=r.width/2,cy=r.height/2;const rx=((y-cy)/cy*-10).toFixed(2)+'deg';const ry=((x-cx)/cx*10).toFixed(2)+'deg';const angle=(x/r.width*360).toFixed(1)+'deg';const shift=((y-cy)/cy*40).toFixed(1)+'%';root.style.setProperty('--tiltX',rx);root.style.setProperty('--tiltY',ry);root.style.setProperty('--holo-angle',angle);root.style.setProperty('--holo-shift',shift);}
-function resetTilt(){root.style.setProperty('--tiltX','0deg');root.style.setProperty('--tiltY','0deg');root.style.setProperty('--holo-shift','0%');}
+/* ==============================
+   1.  File upload → show card
+============================== */
+input.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const url = URL.createObjectURL(f);
+  pic.src   = url;
+  wrap.style.display = 'block';
 
-/* Gyro detection & link */
-function attemptGyro(){if(typeof DeviceOrientationEvent==='undefined') return;function link(){gyroLinked=true;window.addEventListener('deviceorientation',gyroHandler);}if(DeviceOrientationEvent.requestPermission){DeviceOrientationEvent.requestPermission().then(p=>{if(p==='granted') link();}).catch(()=>{});}else{link();}}
-function gyroHandler(e){const beta=e.beta||0,gamma=e.gamma||0;const rx=(beta/90*-12).toFixed(2)+'deg';const ry=(gamma/90*12).toFixed(2)+'deg';const angle=((gamma+90)/180*360).toFixed(1)+'deg';const shift=(beta/180*60).toFixed(1)+'%';root.style.setProperty('--tiltX',rx);root.style.setProperty('--tiltY',ry);root.style.setProperty('--holo-angle',angle);root.style.setProperty('--holo-shift',shift);}  
+  /* set aspect‑ratio from image */
+  const im = new Image();
+  im.onload = () => root.style.setProperty('--ar', (im.naturalWidth / im.naturalHeight).toFixed(3));
+  im.src = url;
+
+  /* try to bind gyro immediately */
+  bindGyro();
+});
+
+/* ==============================
+   2.  Pointer (mouse / touch) control
+============================== */
+wrap.addEventListener('pointerdown', () => dragging = true);
+wrap.addEventListener('pointerup',   () => { dragging = false; resetTilt(); });
+wrap.addEventListener('pointerleave',() => { dragging = false; resetTilt(); });
+
+wrap.addEventListener('pointermove', e => {
+  if (gyroActive) return;                 // gyro has priority
+  if (!dragging && e.pointerType !== 'mouse') return; // touch must be held
+
+  /* throttle 16 ms for mobile */
+  if (e.timeStamp - lastTouch < 16) return;
+  lastTouch = e.timeStamp;
+
+  const r = wrap.getBoundingClientRect();
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
+  const cx = r.width  / 2;
+  const cy = r.height / 2;
+
+  const tiltX = ((y - cy) / cy * -12).toFixed(2) + 'deg';
+  const tiltY = ((x - cx) / cx *  12).toFixed(2) + 'deg';
+  const angle = (x / r.width * 360).toFixed(1)    + 'deg';
+  const shift = ((y - cy) / cy * 40).toFixed(1)   + '%';
+
+  root.style.setProperty('--tiltX', tiltX);
+  root.style.setProperty('--tiltY', tiltY);
+  root.style.setProperty('--holo-angle', angle);
+  root.style.setProperty('--holo-shift', shift);
+});
+
+/* reset on tap‑release */
+function resetTilt() {
+  root.style.setProperty('--tiltX', '0deg');
+  root.style.setProperty('--tiltY', '0deg');
+  root.style.setProperty('--holo-shift', '0%');
+}
+
+/* ==============================
+   3.  Gyroscope control
+============================== */
+function bindGyro() {
+  if (typeof DeviceOrientationEvent === 'undefined') return;
+
+  function handle(e) {
+    gyroActive = true;                    // lock pointer mode
+    const beta  = e.beta  || 0;           // front‑back tilt
+    const gamma = e.gamma || 0;           // left‑right tilt
+
+    const tiltX = (beta  / 90 * -15).toFixed(2) + 'deg';
+    const tiltY = (gamma / 90 *  15).toFixed(2) + 'deg';
+    const angle = ((gamma + 90) / 180 * 360).toFixed(1) + 'deg';
+    const shift = (beta / 180 * 60).toFixed(1) + '%';
+
+    root.style.setProperty('--tiltX', tiltX);
+    root.style.setProperty('--tiltY', tiltY);
+    root.style.setProperty('--holo-angle', angle);
+    root.style.setProperty('--holo-shift', shift);
+  }
+
+  /* iOS permission gate */
+  if (DeviceOrientationEvent.requestPermission) {
+    DeviceOrientationEvent.requestPermission()
+      .then(p => { if (p === 'granted') window.addEventListener('deviceorientation', handle, true); })
+      .catch(() => {/* ignore & fall back to pointer */});
+  } else {
+    window.addEventListener('deviceorientation', handle, true);
+  }
+}
 </script>
 </body>
 </html>
