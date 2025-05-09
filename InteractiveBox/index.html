@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Box</title>
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f0f0; font-family: sans-serif; }
+        #interactive-box { width: 200px; height: 200px; background-color: lightblue; border: 2px solid blue; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: background-color 0.3s, transform 0.3s; }
+        #interactive-box:hover { background-color: lightcoral; transform: scale(1.1); }
+        .nav-link { margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+        .nav-link:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Interactive Box Toy</h1>
+    <div id="interactive-box">
+        Hover over me or click me!
+    </div>
+    <p><a href="../index.html" class="nav-link">返回主菜单 (Back to Main Menu)</a></p>
+    <script>
+        const box = document.getElementById('interactive-box');
+        const colors = ['lightgreen', 'lightpink', 'lightyellow', 'lightsalmon', 'lightseagreen'];
+        let currentColorIndex = 0;
+
+        box.addEventListener('click', () => {
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            box.style.backgroundColor = colors[currentColorIndex];
+            box.textContent = 'Clicked! New color: ' + colors[currentColorIndex];
+        });
+
+        const originalText = box.textContent;
+        box.addEventListener('mouseover', () => {
+            if (!box.textContent.startsWith('Clicked!')) {
+                 box.textContent = 'Wow, you hovered!';
+            }
+        });
+         box.addEventListener('mouseout', () => {
+            if (box.textContent === 'Wow, you hovered!') {
+                box.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>
