@@ -3,6 +3,12 @@
   "name": "web-toys-atou-proxy",
   "main": "src/index.js",
   "compatibility_date": "2026-04-28",
+  "r2_buckets": [
+    {
+      "bucket_name": "web-toys-assets",
+      "binding": "WEB_TOYS_ASSETS"
+    }
+  ],
   "routes": [
     {
       "pattern": "atou.cc/web-toys*",
