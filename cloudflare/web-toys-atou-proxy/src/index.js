@@ -32,7 +32,10 @@ export default {
     const assetPath = incoming.pathname.startsWith(`${PREFIX}/`)
       ? incoming.pathname.slice(PREFIX.length) || "/"
       : incoming.pathname;
-    const r2Key = R2_OBJECTS.get(assetPath);
+    const r2Key = R2_OBJECTS.get(assetPath)
+      || (assetPath.startsWith("/assets/thumbs/")
+        ? assetPath.slice("/assets/".length)
+        : null);
 
     if (r2Key && (request.method === "GET" || request.method === "HEAD")) {
       const object = await env.WEB_TOYS_ASSETS.get(r2Key);

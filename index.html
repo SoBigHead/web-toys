@@ -854,6 +854,7 @@
         const HP_16_TOWER_DATA_URL = "https://atou.cc/web-toys/assets/images/astronomy-tower-4k.png";
         const HP_17_BATTLE_DATA_URL = "https://atou.cc/web-toys/assets/images/hogwarts-battle-4k.png";
         const HP_18_DUEL_DATA_URL = "https://atou.cc/web-toys/assets/images/final-duel-4k.png";
+        const thumbnailUrl = (source) => source.replace("/assets/images/", "/assets/thumbs/").replace(/\.png$/, ".jpg");
         
         const BUILTIN_WORLDS = [
             {
@@ -862,7 +863,7 @@
                 description: "壁炉、红金配色和旧沙发，让世界开始变得可居住。",
                 source: "demo",
                 textureSource: HP_05_COMMON_ROOM_DATA_URL,
-                thumbnail: HP_05_COMMON_ROOM_DATA_URL
+                thumbnail: thumbnailUrl(HP_05_COMMON_ROOM_DATA_URL)
             },
             {
                 id: "hp-diagon-alley",
@@ -870,7 +871,7 @@
                 description: "黄昏的对角巷，像真正踏进魔法世界的第一步。",
                 source: "demo",
                 textureSource: HP_01_DIAGON_ALLEY_DATA_URL,
-                thumbnail: HP_01_DIAGON_ALLEY_DATA_URL
+                thumbnail: thumbnailUrl(HP_01_DIAGON_ALLEY_DATA_URL)
             },
             {
                 id: "hp-platform-9-3-4",
@@ -878,7 +879,7 @@
                 description: "蒸汽、列车和行李车一起把出发感拉满。",
                 source: "demo",
                 textureSource: HP_02_PLATFORM_DATA_URL,
-                thumbnail: HP_02_PLATFORM_DATA_URL
+                thumbnail: thumbnailUrl(HP_02_PLATFORM_DATA_URL)
             },
             {
                 id: "hp-hogwarts-aerial",
@@ -886,7 +887,7 @@
                 description: "整套体验的主地图，城堡、黑湖和禁林都在里面。",
                 source: "demo",
                 textureSource: HP_03_HOGWARTS_DATA_URL,
-                thumbnail: HP_03_HOGWARTS_DATA_URL
+                thumbnail: thumbnailUrl(HP_03_HOGWARTS_DATA_URL)
             },
             {
                 id: "hp-great-hall",
@@ -894,7 +895,7 @@
                 description: "漂浮蜡烛和星空天花板，进入霍格沃茨内部的第一幕。",
                 source: "demo",
                 textureSource: HP_04_GREAT_HALL_DATA_URL,
-                thumbnail: HP_04_GREAT_HALL_DATA_URL
+                thumbnail: thumbnailUrl(HP_04_GREAT_HALL_DATA_URL)
             },
             {
                 id: "hp-moving-staircases",
@@ -902,7 +903,7 @@
                 description: "高空交错楼梯和会看人的肖像，迷路感很强。",
                 source: "demo",
                 textureSource: HP_06_STAIRCASES_DATA_URL,
-                thumbnail: HP_06_STAIRCASES_DATA_URL
+                thumbnail: thumbnailUrl(HP_06_STAIRCASES_DATA_URL)
             },
             {
                 id: "hp-quidditch-match",
@@ -910,7 +911,7 @@
                 description: "高空球场和扫帚高速穿梭，青春和速度都在。",
                 source: "demo",
                 textureSource: HP_07_QUIDDITCH_DATA_URL,
-                thumbnail: HP_07_QUIDDITCH_DATA_URL
+                thumbnail: thumbnailUrl(HP_07_QUIDDITCH_DATA_URL)
             },
             {
                 id: "hp-patronus-lake",
@@ -918,7 +919,7 @@
                 description: "银白色守护神在夜色里炸开，是非常强的名场面。",
                 source: "demo",
                 textureSource: HP_08_PATRONUS_DATA_URL,
-                thumbnail: HP_08_PATRONUS_DATA_URL
+                thumbnail: thumbnailUrl(HP_08_PATRONUS_DATA_URL)
             },
             {
                 id: "hp-chamber-of-secrets",
@@ -926,7 +927,7 @@
                 description: "湿冷石厅和巨大蛇像，地下空间的压迫感很足。",
                 source: "demo",
                 textureSource: HP_09_CHAMBER_DATA_URL,
-                thumbnail: HP_09_CHAMBER_DATA_URL
+                thumbnail: thumbnailUrl(HP_09_CHAMBER_DATA_URL)
             },
             {
                 id: "hp-hogsmeade-snow",
@@ -934,7 +935,7 @@
                 description: "雪、暖灯和魔法小镇，给整套节奏一个温柔停顿。",
                 source: "demo",
                 textureSource: HP_10_HOGSMEADE_DATA_URL,
-                thumbnail: HP_10_HOGSMEADE_DATA_URL
+                thumbnail: thumbnailUrl(HP_10_HOGSMEADE_DATA_URL)
             },
             {
                 id: "hp-triwizard-dragon",
@@ -942,7 +943,7 @@
                 description: "火龙追逐带来一段明显的高压高潮。",
                 source: "demo",
                 textureSource: HP_11_DRAGON_DATA_URL,
-                thumbnail: HP_11_DRAGON_DATA_URL
+                thumbnail: thumbnailUrl(HP_11_DRAGON_DATA_URL)
             },
             {
                 id: "hp-black-lake",
@@ -950,7 +951,7 @@
                 description: "冷蓝水下遗迹，把环境体验一下子拉开。",
                 source: "demo",
                 textureSource: HP_12_BLACK_LAKE_DATA_URL,
-                thumbnail: HP_12_BLACK_LAKE_DATA_URL
+                thumbnail: thumbnailUrl(HP_12_BLACK_LAKE_DATA_URL)
             },
             {
                 id: "hp-triwizard-maze",
@@ -958,7 +959,7 @@
                 description: "高耸灌木墙和浓雾让方向感彻底失效。",
                 source: "demo",
                 textureSource: HP_13_MAZE_DATA_URL,
-                thumbnail: HP_13_MAZE_DATA_URL
+                thumbnail: thumbnailUrl(HP_13_MAZE_DATA_URL)
             },
             {
                 id: "hp-graveyard-return",
@@ -966,7 +967,7 @@
                 description: "从这里开始，整套世界正式转黑。",
                 source: "demo",
                 textureSource: HP_14_GRAVEYARD_DATA_URL,
-                thumbnail: HP_14_GRAVEYARD_DATA_URL
+                thumbnail: thumbnailUrl(HP_14_GRAVEYARD_DATA_URL)
             },
             {
                 id: "hp-department-of-mysteries",
@@ -974,7 +975,7 @@
                 description: "发光预言球和黑色石厅，安静得发冷。",
                 source: "demo",
                 textureSource: HP_15_MYSTERIES_DATA_URL,
-                thumbnail: HP_15_MYSTERIES_DATA_URL
+                thumbnail: thumbnailUrl(HP_15_MYSTERIES_DATA_URL)
             },
             {
                 id: "hp-astronomy-tower",
@@ -982,7 +983,7 @@
                 description: "暴风和高塔把悲剧转折的气氛推到顶。",
                 source: "demo",
                 textureSource: HP_16_TOWER_DATA_URL,
-                thumbnail: HP_16_TOWER_DATA_URL
+                thumbnail: thumbnailUrl(HP_16_TOWER_DATA_URL)
             },
             {
                 id: "hp-battle-of-hogwarts",
@@ -990,7 +991,7 @@
                 description: "战争前夜的城堡庭院，护盾和火光已经把天压低。",
                 source: "demo",
                 textureSource: HP_17_BATTLE_DATA_URL,
-                thumbnail: HP_17_BATTLE_DATA_URL
+                thumbnail: thumbnailUrl(HP_17_BATTLE_DATA_URL)
             },
             {
                 id: "hp-final-duel",
@@ -998,7 +999,7 @@
                 description: "整场战争最后收束到这一道咒语对撞上。",
                 source: "demo",
                 textureSource: HP_18_DUEL_DATA_URL,
-                thumbnail: HP_18_DUEL_DATA_URL
+                thumbnail: thumbnailUrl(HP_18_DUEL_DATA_URL)
             },
         ];
 
