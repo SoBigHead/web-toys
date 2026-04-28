@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "web-toys-atou-proxy",
+  "main": "src/index.js",
+  "compatibility_date": "2026-04-28",
+  "routes": [
+    {
+      "pattern": "atou.cc/web-toys*",
+      "zone_name": "atou.cc"
+    }
+  ]
+}
