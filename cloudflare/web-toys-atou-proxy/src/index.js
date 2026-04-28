@@ -1,7 +1,24 @@
 const ORIGIN = "https://web-toys-82a.pages.dev";
 const PREFIX = "/web-toys";
 const R2_OBJECTS = new Map([
+  ["/assets/images/astronomy-tower-4k.png", "images/astronomy-tower-4k.png"],
+  ["/assets/images/black-lake-4k.png", "images/black-lake-4k.png"],
+  ["/assets/images/chamber-4k.png", "images/chamber-4k.png"],
+  ["/assets/images/common-room-4k.png", "images/common-room-4k.png"],
   ["/assets/images/diagon-4k.png", "images/diagon-4k.png"],
+  ["/assets/images/dragon-arena-4k.png", "images/dragon-arena-4k.png"],
+  ["/assets/images/final-duel-4k.png", "images/final-duel-4k.png"],
+  ["/assets/images/graveyard-4k.png", "images/graveyard-4k.png"],
+  ["/assets/images/great-hall-4k.png", "images/great-hall-4k.png"],
+  ["/assets/images/hogsmeade-snow-4k.png", "images/hogsmeade-snow-4k.png"],
+  ["/assets/images/hogwarts-battle-4k.png", "images/hogwarts-battle-4k.png"],
+  ["/assets/images/hogwarts-overlook-4k.png", "images/hogwarts-overlook-4k.png"],
+  ["/assets/images/maze-4k.png", "images/maze-4k.png"],
+  ["/assets/images/ministry-mysteries-4k.png", "images/ministry-mysteries-4k.png"],
+  ["/assets/images/patronus-4k.png", "images/patronus-4k.png"],
+  ["/assets/images/platform-4k.png", "images/platform-4k.png"],
+  ["/assets/images/quidditch-4k.png", "images/quidditch-4k.png"],
+  ["/assets/images/staircases-4k.png", "images/staircases-4k.png"],
 ]);
 
 export default {
